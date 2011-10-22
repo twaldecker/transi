@@ -62,6 +62,13 @@ class transi {
     ensure => latest,
     require => Exec["aptget_update"],
   }
+    
+  file {"/etc/couchdb/local.ini": # copy local couchdb config local.ini to the vm
+    ensure => "present",
+    source => "/vagrant/files/couchdb/local.ini",
+    require => Package["couchdb"],
+    notify => Service["couchdb"],
+  }
 
   service { "couchdb":
     ensure => "running",
